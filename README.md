@@ -31,5 +31,5 @@ Citation
 
 For the underlying tool please cite: 
 
-Sie, Daoud and Snijders, PeterJ.F. and Meijer, GerritA. and Doeleman, MarijeW. and van Moorsel, MarindaI.H. and van Essen, HendrikF. and Eijk, PaulP. and Grünberg, Katrien and van Grieken, NicoleC.T. and Thunnissen, Erik and Verheul, HenkM. and Smit, EgbertF. and Ylstra, Bauke and Heideman, DaniëlleA.M. "Performance of amplicon-based next generation DNA sequencing for diagnostic gene mutation profiling in oncopathology" Cellular Oncology 37.5 (2014):353-361 doi:10.1007/s13402-014-0196-2
+Daoud Sie, Peter J.F. Snijders, Gerrit A. Meijer, Marije W. Doeleman, Marinda I. H. van Moorsel, Hendrik F. van Essen, Paul P. Eijk, Katrien Grünberg, Nicole C. T. van Grieken, Erik Thunnissen, Henk M. Verheul, Egbert F. Smit, Bauke Ylstra, Daniëlle A. M. Heideman "Performance of amplicon-based next generation DNA sequencing for diagnostic gene mutation profiling in oncopathology" Cellular Oncology 37.5 (2014):353-361 doi:10.1007/s13402-014-0196-2
 
