@@ -9,19 +9,16 @@ The typical workflow is as follows:
 * paired-end amplicon sequencing
 * merge pairs (so only overlapping pairs are included)
 * map the single read fastq with BWA
-* perform variant calling with FALCO
+* perform variant calling with FALCO (input=BAM, output=VCF)
 * create (html) report of the results
 
 FALCO uses samtools and straight-forward statistics to determine wether a
 potential variant is likely a (technical) artifact or not.
 
-Input / Output:
-Input of FALCO is a BAM file, output VCF
-
-For questions/remarks about the underlying tool itself, see also FALCO at [github].
+For questions/remarks about the underlying tool itself, see also [FALCO at github].
 Issues can also be reported via http://www.tgac.nl/
 
-[github]: https://github.com/tgac-vumc/falco/
+[Falco at github]: https://github.com/tgac-vumc/falco/
 
 
 Installation
