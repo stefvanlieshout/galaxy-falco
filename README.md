@@ -15,11 +15,10 @@ The typical workflow is as follows:
 FALCO uses samtools and straight-forward statistics to determine wether a
 potential variant is likely a (technical) artifact or not.
 
-For questions/remarks about the underlying tool itself, see also [FALCO at github].
-Issues can also be reported via http://www.tgac.nl/
+For questions/remarks about the underlying tool itself, see [FALCO at github]. Issues can also be reported the via [TGAC website]
 
 [Falco at github]: https://github.com/tgac-vumc/falco/
-
+[TGAC website]: http://www.tgac.nl/
 
 Installation
 ---------------------
