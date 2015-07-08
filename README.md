@@ -3,9 +3,23 @@ FALCO Galaxy tool
 
 This galaxy-tool is a wrapper for the Amplicon Variant Caller FALCO
 
-It was created to perform variant calling on sequencing data from the TruSeq Amplicon Cancer Panel from Illumina. A typical pre-FALCO workflow would include merging (by overlapping) the reads from a paired-end run, mapping the merged reads to the human genome and use the BAM as input for FALCO.
+FALCO is part of the Amplicon Analysis Pipeline (AAP).
+
+The typical workflow is as follows:
+* paired-end amplicon sequencing
+* merge pairs (so only overlapping pairs are included)
+* map the single read fastq with BWA
+* perform variant calling with FALCO
+* create (html) report of the results
+
+FALCO uses samtools and straight-forward statistics to determine wether a
+potential variant is likely a (technical) artifact or not.
+
+Input / Output:
+Input of FALCO is a BAM file, output VCF
 
 For questions/remarks about the underlying tool itself, see also FALCO at [github].
+Issues can also be reported via http://www.tgac.nl/
 
 [github]: https://github.com/tgac-vumc/falco/
 
