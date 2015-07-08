@@ -1,0 +1,128 @@
+<tool id="falco-report" name="falco-report" version="0.0.1">
+  
+  <requirements>
+    
+    <requirement type="package" version="0.1.19">samtools</requirement>
+    <requirement type="package" version="3.0.1">R</requirement>
+    <requirement type="set_environment">FALCO_PATH</requirement>
+    
+  </requirements>
+
+  <description>FALCO Amplicon Analysis Pipeline Reporting</description>
+
+  <command interpreter="bash">
+    falco-filter-report.sh $falco_cfg \$FALCO_PATH;
+  </command>
+
+  <stdio>
+    <!-- Anything higher than 0 means the bash script didnt finish -->
+    <exit_code range="1:" level="fatal" description="Bash script didnt finish correctly, check log" />
+  </stdio>
+  
+  <inputs>
+    <!-- ==================== -->
+    <!-- General inputs -->
+    <!-- ==================== -->
+    <!-- <conditional name="genomeSource">
+      <param name="refGenomeSource" type="select" label="You can select a reference genome from your history or use a built-in index">
+        <option value="indexed">Use a built-in index</option>
+        <option value="history">Use one from history</option>
+      </param>
+      <when value="indexed">
+        <param name="indices" type="select" label="Select a reference genome">
+          <options from_data_table="all_fasta">
+            <filter type="sort_by" column="2" />
+            <validator type="no_options" message="No indexes are available in table" />
+          </options>
+        </param>
+      </when>
+      <when value="history">
+        <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a reference from history" />
+      </when>
+    </conditional> -->
+
+    <param name="jobName" type="text" optional="false" label="Analysis/ouput name" help="Supply a name for the outputs to remind you what they contain" value="TEST">
+      <validator type="empty_field" />
+      <validator type="regex" message="This field may contain only non-whitespace characters">\S+</validator>
+    </param>
+    <param name="vcf" type="data" multiple="false" optional="false" format="vcf" label="Input VCF" help="NOTE VCF must be annotated with SNPEFF (should contain EFF FIELD)" />
+    <param name="vcf2" type="data" multiple="false" optional="true" format="vcf" label="Input VCF (optional second VCF)" help="NOTE VCF must be annotated with SNPEFF (should contain EFF FIELD)" />
+
+    <param format="tabular" name="qc_ann_qual" optional="false" type="data" label="qc_ann_qual file" help="This file is output of the FALCO variant caller"/>
+    <param format="tabular" name="qc2_ann_txt" optional="false" type="data" label="qc2_ann_txt file" help="This file is output of the FALCO variant caller"/>
+    <param format="tabular" name="qc_targets_txt" optional="false" type="data" label="qc_targets_txt file" help="This file is output of the FALCO variant caller"/>
+
+    <!-- ==================== -->
+    <!-- Option to use your own bin annotations -->
+    <!-- ==================== -->
+  
+  </inputs>
+  
+  <!-- ==================== -->
+  <!-- This config is sourced by tool -->
+  <!-- ==================== -->
+  <configfiles>
+    <configfile name="falco_cfg">
+
+      vcf_file=$vcf
+      vcf2_file=$vcf2
+      
+      qc_ann_qual_file=$qc_ann_qual
+      qc2_ann_txt_file=$qc2_ann_txt
+      qc_targets_txt_file=$qc_targets_txt
+
+      vcf_name=$vcf.name
+      html_out=$html_output
+      out_path=${html_output.files_path}
+      job_name=$jobName
+      
+    </configfile>
+  </configfiles>
+
+  <!-- ==================== -->
+  <!-- Main output is an html based report, additional on request -->
+  <!-- ==================== -->
+  <outputs>
+    <data format="html" name="html_output" label="FALCO-reporting (${jobName})" />
+    <!-- <data format="vcf" name="vcf_output" label="FALCO-calling (${jobName}): VCF" /> -->
+  </outputs>
+
+  <!-- ==================== -->
+  <!-- Tests still to be done -->
+  <!-- ==================== -->
+
+  <!-- 
+  <tests>
+    <test>
+      <param name="input1" value="input1" />   
+      <param name="input2" value="input2" />   
+    </test>
+  </tests>
+  -->
+
+  <help>
+.. class:: infomark
+
+**Introduction**
+
+This tool is a wrapper for the variant caller FALCO_ which is part of the Amplicon Analysis Pipeline (AAP)
+
+.. _FALCO: https://github.com/tgac-vumc/falco/
+
+Calls and annotates genomic variants for each amplicon in a design.
+
+**Notes**
+
+Because each amplicon is considered separate test, if two amplicons overlap this can cause the same variant position to be present twice in the output VCF. This is intentional, you can use this to evaluate the quality of the variant call beyond the amplicon.
+
+-----
+
+**Citation**
+
+For the underlying tool please cite: Daoud Sie et al. Performance of amplicon-based next generation DNA sequencing for diagnostic gene mutation profiling in oncopathology (Cell Oncol 2014 Oct;37(5):353-61). [Pubmed]
+
+.. _Pubmed: http://www.ncbi.nlm.nih.gov/pubmed/25209392
+
+  </help>
+
+</tool>

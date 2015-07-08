@@ -1,0 +1,26 @@
+#This is a sample file distributed with Galaxy that enables tools
+#to use a directory with indexed fasta files. The all_fasta.loc file has 
+#this format (longer white space characters are TAB characters):
+#
+#<unique_build_id>   <dbkey>   <display_name>   <file_path>
+#
+#So, for example, if you had phiX indexed stored in 
+#/example/path/
+#then the all_fasta.loc entry would look like this:
+#
+#phiX174   phiX   phiX Pretty   /example/path/phiX.fa
+#
+#and your /example/path/ directory
+#would contain phiX.fa.* files:
+#
+# phiX.fa.fai
+# phiX.fa.dict
+#
+#Your all_fasta.loc file should include an entry per line for each
+#index set you have stored. For example:
+#
+#phiX174	phiX	phiX174			/path/to/phiX.fa
+#hg18		hg18	hg18 Full		/path/to/hg18full.fa
+#hg19		hg19	hg19			/path/to/hg19.fa
+#...etc...
+#
