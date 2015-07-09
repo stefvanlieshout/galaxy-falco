@@ -12,7 +12,7 @@ The typical workflow is as follows:
 * perform variant calling with FALCO (input=BAM, output=VCF)
 * create (html) report of the results
 
-FALCO uses samtools and straight-forward statistics to determine wether a
+FALCO uses samtools and straight-forward statistics to determine whether a
 potential variant is likely a (technical) artifact or not.
 
 For questions/remarks about the underlying tool itself, see [FALCO at github]. Issues can also be reported the via [TGAC website]
