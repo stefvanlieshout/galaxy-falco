@@ -40,6 +40,15 @@ fi
 #bam_base=`echo $bam_name | sed 's#.bam$##' - ` 
 bam_base=$job_name
 
+## in case of test run (re)set params
+if [[ $test_run == 'true' ]]
+then 
+	MANIFEST_PARAM=""
+	FILTER_PARAM=""
+	bam_file=$TOOLDIR/tool-data/HCT116_test_ABL1.bam
+	#bam_base="GALAXY-FALCO-TEST"
+fi
+
 ## ----------
 ## Status / debug
 ## ----------
@@ -47,11 +56,11 @@ DEBUG=1
 if [ $DEBUG ]
 then
 	DBS="[INFO] "
-	echo $DBS"FILTER:   "$filter_file
+	echo $DBS"FILTER: "$filter_file
 	echo $DBS"MANIFEST: "$manifest_file
 	echo $DBS"REF FILE: "$REF_FILE
-	echo $DBS"DB KEY:   "$DB_KEY
-	echo $DBS"REF SRC:  "$REF_SOURCE
+	echo $DBS"DB KEY: "$DB_KEY
+	echo $DBS"REF SRC: "$REF_SOURCE
 	echo $DBS"BAM FILE: "$bam_file
 	echo $DBS"BAM NAME: "$bam_name
 	echo $DBS"BAM BASE: "$bam_base
@@ -89,7 +98,7 @@ echo "</style>" >> $html_out
 echo "</head>" >> $html_out
 echo "<body>" >> $html_out
 echo "	<h1>FALCO</h1>" >> $html_out
-echo "	<p>This page is way to get output files that are not implemented in galaxy history, it is not intended to be a user-friendly way of displaying anything ;)</p>" >> $html_out
+echo "	<p>This page is way to get output files that are not implemented in galaxy history, it is not intended to be a user-friendly way of displaying anything ;)</p><p>Also not all files might have been copied. To delete this files below from the galaxy installation delete the html page in your history.." >> $html_out
 #echo "	<a href=\"index.html\">HTML</a>" >> $html_out
 echo "	<table><tbody>" >> $html_out
 for file in *.vcf *.txt *stderr *stdout
@@ -107,7 +116,7 @@ echo "</html>" >> $html_out
 ## creating galaxy history outputs
 ## ----------
 #cp 'index.html' $html_out # this is the overview of samples html
-#cp $bam_base'.html' $out_path/'out.html' # this is the sample html
+cp $bam_base'.html' $out_path/'out.html' # this is the sample html
 cp $bam_base'.falco.vcf' $vcf_out
 cp $bam_base'.qc.ann.qual.txt' $qc_ann_qual_out
 cp $bam_base'.qc2.ann.txt' $qc2_ann_txt_out
@@ -118,7 +127,9 @@ cp $bam_base'.qc.targets.txt' $qc_targets_txt_out
 ## ----------
 #cp -r ./$bam_base/*png $out_path/$bam_base/
 #cp -r ./* $out_path
-cp *.vcf $out_path; cp *.txt $out_path; cp *_std* $out_path
+cp *.vcf $out_path; 
+#cp *.txt $out_path; 
+cp *_std* $out_path
 
 ## ----------
 echo "END falco sh"

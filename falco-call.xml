@@ -11,7 +11,8 @@
   <description>FALCO: Amplicon Analysis Pipeline</description>
 
   <command interpreter="bash">
-    falco-call.sh $falco_cfg \$FALCO_PATH;
+    <!--falco-call.sh $falco_cfg \$FALCO_PATH;-->
+    falco-call.sh $falco_cfg "/home/stef/DATA/galaxy/galaxy-dist/tools/falcoNew/"
   </command>
 
   <stdio>
@@ -23,6 +24,11 @@
     <!-- ==================== -->
     <!-- General inputs -->
     <!-- ==================== -->
+    <param name="jobName" type="text" optional="false" label="Analysis/ouput name" help="Supply a name for the outputs to remind you what they contain. The string entered here will also be the sample-name in the VCF" value="TEST">
+      <validator type="empty_field" />
+      <validator type="regex" message="This field may contain only non-whitespace characters">\S+</validator>
+    </param>
+
     <conditional name="genomeSource">
       <param name="refGenomeSource" type="select" label="You can select a reference genome from your history or use a built-in index">
         <option value="indexed">Use a built-in index</option>
@@ -41,18 +47,26 @@
       </when>
     </conditional>
 
-    <param name="jobName" type="text" optional="false" label="Analysis/ouput name" help="Supply a name for the outputs to remind you what they contain" value="TEST">
-      <validator type="empty_field" />
-      <validator type="regex" message="This field may contain only non-whitespace characters">\S+</validator>
-    </param>
     <param name="bam" type="data" multiple="false" optional="false" format="bam" label="Input BAM" help="Select BAM file" />
 
-    <param format="tabular" name="filter_file" optional="True" type="data" label="FILTER File" help="When left empty, default list of genomic positions is used"/>
-    <param format="txt" name="manifest_file" optional="True" type="data" label="MANIFEST File" help="When left empty, default Cancer Panel is used"/>
+    <param format="tabular" name="filter_file" optional="True" type="data" label="FILTER File" help="When left empty, built-in list of genomic positions is used"/>
+    <param format="txt" name="manifest_file" optional="True" type="data" label="MANIFEST File" help="When left empty, built-in panel is used (TruSeq Amplicon Cancer Panel)"/>
 
     <!-- ==================== -->
-    <!-- Option to use your own bin annotations -->
+    <!-- Optional hisotry output: copynumber TXT file -->
     <!-- ==================== -->
+    <param name="txt2history" type="select" label="Also output falco specific TXT files to history" help="These text files are much larger but are required for the falco-report tool, so usually you only want these in a workflow and auto-delete them at the end">
+      <option value="false">no</option>
+      <option value="true">yes</option>
+    </param>
+
+    <!-- ==================== -->
+    <!-- Option to perform a test run with built in data -->
+    <!-- ==================== -->
+    <param name="testRun" type="select" label="Run with test data" help="Use built-in HCT116 data instead of input BAMs. This dataset contains only one amplicon.">
+      <option value="false">no</option>
+      <option value="true">yes</option>
+    </param>
   
   </inputs>
   
@@ -70,6 +84,8 @@
       qc_ann_qual_out=$qc_ann_qual_output
       qc2_ann_txt_out=$qc2_ann_txt_output
       qc_targets_txt_out=$qc_targets_txt_output
+      also_output_txt=$txt2history
+      test_run=$testRun
 
       out_path=${html_output.files_path}
       job_name=$jobName
@@ -90,11 +106,19 @@
   <!-- Main output is an html based report, additional on request -->
   <!-- ==================== -->
   <outputs>
-    <data format="html" name="html_output" label="FALCO-calling (${jobName})" />
+    <data format="html" name="html_output" label="FALCO-calling (${jobName})">
+      <filter>(txt2history == 'true')</filter>
+    </data>
     <data format="vcf" name="vcf_output" label="FALCO-calling (${jobName}): VCF" />
-    <data format="tabular" name="qc_ann_qual_output" label="FALCO-calling (${jobName}): qc_ann_qual" />
-    <data format="tabular" name="qc2_ann_txt_output" label="FALCO-calling (${jobName}): qc2_ann" />
-    <data format="tabular" name="qc_targets_txt_output" label="FALCO-calling (${jobName}): qc_targets" />
+    <data format="tabular" name="qc_ann_qual_output" label="FALCO-calling (${jobName}): qc_ann_qual">
+      <filter>(txt2history == 'true')</filter>
+    </data>
+    <data format="tabular" name="qc2_ann_txt_output" label="FALCO-calling (${jobName}): qc2_ann">
+      <filter>(txt2history == 'true')</filter>
+    </data>
+    <data format="tabular" name="qc_targets_txt_output" label="FALCO-calling (${jobName}): qc_targets">
+      <filter>(txt2history == 'true')</filter>
+    </data>
   </outputs>
 
   <!-- ==================== -->
@@ -123,13 +147,13 @@ Calls and annotates genomic variants for each amplicon in a design.
 
 **Notes**
 
-Because each amplicon is considered separate test, if two amplicons overlap this can cause the same variant position to be present twice in the output VCF. This is intentional, you can use this to evaluate the quality of the variant call beyond the amplicon.
+Because each amplicon is analysed separately, when two amplicons overlap this can cause the same variant position to be present twice in the output VCF. This is intentional, you can use this to evaluate the quality of the variant call beyond the amplicon reads.
 
 -----
 
 **Citation**
 
-For the underlying tool please cite: Daoud Sie et al. Performance of amplicon-based next generation DNA sequencing for diagnostic gene mutation profiling in oncopathology (Cell Oncol 2014 Oct;37(5):353-61). [Pubmed]
+For the underlying tool please cite: Daoud Sie et al. Performance of amplicon-based next generation DNA sequencing for diagnostic gene mutation profiling in oncopathology (Cell Oncol 2014 Oct;37(5):353-61). Pubmed_
 
 .. _Pubmed: http://www.ncbi.nlm.nih.gov/pubmed/25209392
 
