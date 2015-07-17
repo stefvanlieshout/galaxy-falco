@@ -11,8 +11,7 @@
   <description>FALCO Amplicon Analysis Pipeline Reporting</description>
 
   <command interpreter="bash">
-    <!--falco-filter-report.sh $falco_cfg \$FALCO_PATH;-->
-    falco-filter-report.sh $falco_cfg "/home/stef/DATA/galaxy/galaxy-dist/tools/falcoNew/"
+    falco-filter-report.sh $falco_cfg \$FALCO_PATH;
   </command>
 
   <stdio>
