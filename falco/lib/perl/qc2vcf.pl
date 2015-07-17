@@ -76,7 +76,7 @@ while (<QC>) {
 		my $gt = "$row[$ref]/$VAR";
 		my $qual = $row[$varQual] || 0;
 		$skip++ if ($qual == 0);
-		my $filter = 0;
+		my $filter = '.';
 		my $info = "TARGET=$row[$target]";
 		my $format = "DP:AD:AB";
 		my $sample = "$row[$dp]:$row[$nref],$dpVar:$vaf";
@@ -103,7 +103,7 @@ while (<QC>) {
 		my $gt = "$row[$ref]/$keys[0]";
 		my $qual = $row[$insQual];
 		$skip++ if ($qual == 0);
-		my $filter = 0;
+		my $filter = '.';
 		my $info = "TARGET=$row[$target]";
 		my $format = "DP:AD:AB";
 		my $sample = "$DP:$nREF,$nins:$vaf";
@@ -129,7 +129,7 @@ while (<QC>) {
 		my $gt = "$keys[0]/$row[$ref]";
 		my $qual = $row[$delQual];
 		$skip++ if ($qual == 0);
-		my $filter = 0;
+		my $filter = '.';
 		my $info = "TARGET=$row[$target]";
 		my $format = "DP:AD:AB";
 		my $sample = "$DP:$nREF,$ndel:$vaf";
