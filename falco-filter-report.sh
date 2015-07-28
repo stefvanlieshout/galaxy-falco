@@ -82,13 +82,13 @@ echo "<html>" >> $html_out
 echo "<head>" >> $html_out
 echo "<style>" >> $html_out
 echo "    body{ padding: 0px 20px; }" >> $html_out
-echo "    h1{ color: red; }" >> $html_out
+echo "    h1{ }" >> $html_out
 echo "    table{ border: 1px solid black; padding: 5px }" >> $html_out
 echo "</style>" >> $html_out
 echo "</head>" >> $html_out
 echo "<body>" >> $html_out
-echo "	<h1>FALCO</h1>" >> $html_out
-echo "  <a href=\"$sample_html_file\">RESULTS</a>" >> $html_out
+echo "	<h1>FALCO Amplicon Variant Caller results ("$vcf_base")</h1>" >> $html_out
+echo "  <p>Explore the <a href=\"$sample_html_file\">results</a> within galaxy or use the zip output option to grab a zip from your history" >> $html_out
 #echo "	<p>This page is way to get output files that are not implemented in galaxy history, it is not intended to be a user-friendly way of displaying anything ;)</p>" >> $html_out
 #echo "	<a href=\"index.html\">HTML</a>" >> $html_out
 #echo "	<table><tbody>" >> $html_out
@@ -108,7 +108,7 @@ echo "</html>" >> $html_out
 ## ----------
 #cp 'index.html' $html_out # this is the overview of samples html
 #cp $sample_html_file $out_path # this is the sample html
-cp $vcf_base'.html' $html_out # this is the sample html
+#cp $vcf_base'.html' $html_out # this is the sample html
 
 ## ----------
 ## copy files to keep to output path
