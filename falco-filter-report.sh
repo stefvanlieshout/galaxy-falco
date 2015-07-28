@@ -107,15 +107,28 @@ echo "</html>" >> $html_out
 ## creating galaxy history outputs
 ## ----------
 #cp 'index.html' $html_out # this is the overview of samples html
-cp $sample_html_file $out_path # this is the sample html
-#cp $vcf_base'.html' $html_out # this is the sample html
+#cp $sample_html_file $out_path # this is the sample html
+cp $vcf_base'.html' $html_out # this is the sample html
 
 ## ----------
 ## copy files to keep to output path
 ## ----------
 #cp -r ./$bam_base/*png $out_path/$bam_base/
 cp -r ./* $out_path
+#cp -r ./$bam_base $out_path
 #cp *.vcf $out_path; cp *.txt $out_path; cp *_std* $out_path
+
+## ------------------------
+## create final zip and quit with status 0 to tell galaxy all was fine
+## ------------------------
+
+if [[ $zip_to_history == 'true' ]]
+then 
+	echo "[INFO] zipping output"
+	zip -r tmp.zip *.html *.xls *.tsv $vcf_base/*.png 
+	cp tmp.zip $zip_out
+fi
+
 
 ## ----------
 echo "END falco sh"

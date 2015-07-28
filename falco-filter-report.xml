@@ -11,7 +11,8 @@
   <description>FALCO Amplicon Analysis Pipeline Reporting</description>
 
   <command interpreter="bash">
-    falco-filter-report.sh $falco_cfg \$FALCO_PATH;
+    <!--falco-filter-report.sh $falco_cfg \$FALCO_PATH;-->
+    falco-filter-report.sh $falco_cfg "/home/stef/DATA/galaxy/galaxy-dist/tools/falcoNew/"
   </command>
 
   <stdio>
@@ -32,6 +33,14 @@
     <param format="tabular" name="qc_ann_qual" optional="false" type="data" label="qc_ann_qual file" help="This file is output of the FALCO variant caller falco-call"/>
     <param format="tabular" name="qc2_ann_txt" optional="false" type="data" label="qc2_ann_txt file" help="This file is output of the FALCO variant caller fal-call"/>
     <param format="tabular" name="qc_targets_txt" optional="false" type="data" label="qc_targets_txt file" help="Tabular text file with information about the amplicon regions. This file is output of the FALCO variant caller falco-call"/>
+
+    <!-- ==================== -->
+    <!-- Optional hisotry output: ZIP file with all files -->
+    <!-- ==================== -->
+    <param name="zip2history" type="select" label="Also output a ZIP file" help="The zip will contain all output files for easy download">
+      <option value="false">no</option>
+      <option value="true">yes</option>
+    </param>
   
   </inputs>
   
@@ -48,10 +57,12 @@
       qc2_ann_txt_file=$qc2_ann_txt
       qc_targets_txt_file=$qc_targets_txt
 
-      vcf_name=$vcf.name
-      html_out=$html_output
+      vcf_name="${vcf.name}"
+      html_out=${html_output}
       out_path=${html_output.files_path}
       job_name=$jobName
+      zip_out=${zip_output}
+      zip_to_history=$zip2history
       
     </configfile>
   </configfiles>
@@ -61,6 +72,9 @@
   <!-- ==================== -->
   <outputs>
     <data format="html" name="html_output" label="FALCO-reporting (${jobName})" />
+    <data format="zip" name="zip_output" label="FALCO-reporting (${jobName}) zip">
+      <filter>(zip2history == 'true')</filter>
+    </data>
     <!-- <data format="vcf" name="vcf_output" label="FALCO-calling (${jobName}): VCF" /> -->
   </outputs>
 

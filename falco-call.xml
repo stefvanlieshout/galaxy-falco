@@ -11,7 +11,8 @@
   <description>FALCO: Amplicon Analysis Pipeline</description>
 
   <command interpreter="bash">
-    falco-call.sh $falco_cfg \$FALCO_PATH;
+    <!--falco-call.sh $falco_cfg \$FALCO_PATH;-->
+    falco-call.sh $falco_cfg "/home/stef/DATA/galaxy/galaxy-dist/tools/falcoNew/"
   </command>
 
   <stdio>
